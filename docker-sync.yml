@@ -1,0 +1,27 @@
+version: "2"
+
+options:
+  verbose: true
+syncs:
+  #IMPORTANT: ensure this name is unique and does not match your other container names
+  versions-sync:
+    src: './versions'
+    # sync_strategy: 'native_osx' # not needed, this is the default now
+    # sync_excludes: ['.gitignore', '.idea/*','.git/*', '*.coffee', '*.scss', '*.sass','*.log']
+    sync_userid: '33'
+    sync_args:
+      - "-prefer newer"
+#      - "-ignore='Path .git'"
+#      - "-ignore='BelowPath .git'"
+
+  static-sync:
+    src: './static'
+    sync_userid: '33'
+    sync_args:
+      - "-prefer newer"
+
+  jenkins-sync:
+    src: './jenkins'
+    sync_userid: '1000'
+    sync_args:
+      - "-prefer newer"
