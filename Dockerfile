@@ -138,9 +138,6 @@ RUN \
   && rm -rf /tmp/pear \
   && echo "extension=redis.so" > $PHP_INI_DIR/conf.d/docker-php-ext-redis.ini \
 
-# Install jinja2 cli
-  && easy_install j2cli \
-
 # Install composerrm -rf /var/lib/apt/lists/
   && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer \
   && composer global require hirak/prestissimo \
