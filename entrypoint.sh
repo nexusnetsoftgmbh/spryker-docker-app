@@ -46,10 +46,7 @@ j2 /vars.j2 > /versions/vars
 ##echo $NEWRELIC_KEY | sudo newrelic-install install
 
 # Configure PHP
-j2 /usr/local/etc/php/php.ini.j2 > /usr/local/etc/php/php.ini 
-
-# Configure SSMTP
-j2 /etc/ssmtp/ssmtp.conf.j2 > /etc/ssmtp/ssmtp.conf
+j2 /usr/local/etc/php/php.ini.j2 > /usr/local/etc/php/php.ini
 
 # Put Zed host IP to /etc/hosts file:
 echo "127.0.0.1	$ZED_HOST" >> /etc/hosts
