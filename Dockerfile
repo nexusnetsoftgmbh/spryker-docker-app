@@ -80,7 +80,6 @@ RUN \
     python-setuptools   \
     redis-tools         \
     rsync               \
-    ssmtp               \
     sudo                \
     supervisor          \
     unzip               \
@@ -167,9 +166,6 @@ COPY php/pool.d/*.conf /usr/local/etc/php-fpm.d/
 # Opcache configuration
 COPY php/ext/opcache.ini /tmp/opcache.ini
 RUN cat /tmp/opcache.ini >> /usr/local/etc/php/conf.d/docker-php-ext-opcache.ini
-
-# Sending email configuration
-COPY ssmtp/ssmtp.conf.j2 /etc/ssmtp/ssmtp.conf.j2
 
 # supervisord configuration
 COPY supervisord.conf /etc/supervisor/supervisord.conf
