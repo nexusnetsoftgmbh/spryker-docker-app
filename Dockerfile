@@ -131,7 +131,7 @@ RUN \
 # Install xDebug
   && pecl install -o -f xdebug \
   && rm -rf /tmp/pear \
-  && echo "extension=xdebug.so" > $PHP_INI_DIR/conf.d/docker-php-ext-xdebug.ini \
+  && docker-php-ext-enable xdebug \
 
 # Install PHP redis extension
   && pecl install -o -f redis \
