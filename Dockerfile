@@ -53,7 +53,7 @@ RUN \
 
 # Install Debian packages
 
-&&  apt-get -qy update && apt-get install -q -y --no-install-recommends $PHPIZE_DEPS \
+&&  apt-get -qy update && apt-get install -q -y \
     apt-utils           \
     ca-certificates     \
     curl                \
