@@ -53,7 +53,7 @@ RUN \
 
 # Install Debian packages
 
-&&  apt-get -qy update && apt-get install -q -y \
+&&  apt-get -qy update && apt-get install -q -y --no-install-recommends $PHPIZE_DEPS \
     apt-utils           \
     ca-certificates     \
     curl                \
@@ -78,7 +78,6 @@ RUN \
     psmisc              \
     python-dev          \
     python-setuptools   \
-    build-essential   \
     redis-tools         \
     rsync               \
     sudo                \
