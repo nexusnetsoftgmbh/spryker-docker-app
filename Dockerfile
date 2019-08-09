@@ -78,6 +78,7 @@ RUN \
     psmisc              \
     python-dev          \
     python-setuptools   \
+    python-pip          \
     redis-tools         \
     rsync               \
     sudo                \
@@ -90,12 +91,11 @@ RUN \
     newrelic-php5       \
 
   && mkdir /var/run/sshd  \
-  && useradd -m -s /bin/bash -d /data jenkins               \
-  && echo "jenkins:bigsecretpass" | chpasswd                \
-  #Add user to group www-data and to sudoers file
-  && usermod -a -G www-data jenkins                         \
-  && echo 'jenkins ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers  \
- 
+  && useradd -m -s /bin/bash -d /data nexus               \
+  && echo "nexus:nexus123" | chpasswd                \
+  # Add user to group www-data and to sudoers file
+  && usermod -a -G www-data nexus                         \
+  && echo 'nexus ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers  \
 
 # Install PHP extensions
   && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
@@ -130,8 +130,6 @@ RUN \
 
 # Install xDebug
   && pecl install -o -f xdebug \
-  && rm -rf /tmp/pear \
-  && docker-php-ext-enable xdebug \
 
 # Install PHP redis extension
   && pecl install -o -f redis \
@@ -139,7 +137,7 @@ RUN \
   && echo "extension=redis.so" > $PHP_INI_DIR/conf.d/docker-php-ext-redis.ini \
 
 # Install jinja2 cli
-  && easy_install j2cli \
+  && pip install j2cli \
 
 # Install composerrm -rf /var/lib/apt/lists/
   && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer \
