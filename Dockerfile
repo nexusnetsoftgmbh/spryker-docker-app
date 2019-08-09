@@ -186,12 +186,12 @@ COPY vars.j2 /vars.j2
 #RUN chmod +x /setup_suite.sh
 
 # Add jenkins authorized_keys
-RUN mkdir -p /etc/spryker/jenkins/.ssh
-COPY jenkins/id_rsa.pub /etc/spryker/jenkins/.ssh/authorized_keys
-RUN sed -i '/^#AuthorizedKeysFile/aAuthorizedKeysFile      .ssh/authorized_keys /etc/spryker/%u/.ssh/authorized_keys\nPort 222 ' /etc/ssh/sshd_config  \
- && chmod 600 /etc/spryker/jenkins/.ssh/authorized_keys \
- && chown jenkins:jenkins /etc/spryker/jenkins/.ssh/authorized_keys
-RUN sed -i '/chown\ jenkins/a[[ ! -z "$JENKINS_PUB_SSH_KEY" ]] && echo "$JENKINS_PUB_SSH_KEY" > /etc/spryker/jenkins/.ssh/authorized_keys || echo "SSH key variable is not found. User Jenkins will use default SSH key."' /entrypoint.sh
+#RUN mkdir -p /etc/spryker/jenkins/.ssh
+#COPY jenkins/id_rsa.pub /etc/spryker/jenkins/.ssh/authorized_keys
+#RUN sed -i '/^#AuthorizedKeysFile/aAuthorizedKeysFile      .ssh/authorized_keys /etc/spryker/%u/.ssh/authorized_keys\nPort 222 ' /etc/ssh/sshd_config  \
+# && chmod 600 /etc/spryker/jenkins/.ssh/authorized_keys \
+# && chown jenkins:jenkins /etc/spryker/jenkins/.ssh/authorized_keys
+#RUN sed -i '/chown\ jenkins/a[[ ! -z "$JENKINS_PUB_SSH_KEY" ]] && echo "$JENKINS_PUB_SSH_KEY" > /etc/spryker/jenkins/.ssh/authorized_keys || echo "SSH key variable is not found. User Jenkins will use default SSH key."' /entrypoint.sh
 
 # Add SwiftMailer AWS configuration
 COPY application/app_files/MailDependencyProvider.php /etc/spryker/
