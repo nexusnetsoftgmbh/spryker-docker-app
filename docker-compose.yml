@@ -16,7 +16,7 @@ services:
     ports:
       - "80:8080"
       - "10001:10001"
-      - "222:222"
+      - "2222:22"
     environment:
       ENV_NAME: dockersuite
       APPLICATION_ENV: development
@@ -113,7 +113,7 @@ services:
       JAVA_OPTS: '-Djenkins.install.runSetupWizard=false'
       ZED_HOST: app
     ports:
-      - "9090:8080"
+      - "8080:8080"
     volumes:
       - ../current:/data/shop/development/current:rw
 

@@ -6,6 +6,7 @@ RUN chmod +x /tini
 
 # For running APT in non-interactive mode
 ENV DEBIAN_FRONTEND noninteractive
+ENV NODE_VERSION 8
 
 # Define build requirements, which can be removed after setup from the container
 ENV PHPIZE_DEPS \
@@ -72,7 +73,6 @@ RUN \
     netcat              \
     nginx               \
     nginx-extras        \
-    nodejs              \
     patch               \
     postgresql-client   \
     psmisc              \
@@ -146,7 +146,16 @@ RUN \
 # Remove build requirements for php modules
   && apt-get -qy autoremove \
   && apt-get -qy purge $PHPIZE_DEPS \
-  && rm -rf /var/lib/apt/lists/*
+  && rm -rf /var/lib/apt/lists/* \
+
+# Install nvm for nodejs
+  && wget -qO- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
+
+ENV NVM_DIR /root/.nvm
+
+RUN chmod +x $NVM_DIR/nvm.sh \
+  && . $NVM_DIR/nvm.sh \
+  && nvm install $NODE_VERSION
 
 # Nginx configuration
 COPY nginx/nginx.conf /etc/nginx/nginx.conf
