@@ -172,6 +172,7 @@ COPY php/pool.d/*.conf /usr/local/etc/php-fpm.d/
 #RUN echo "memory_limit = 2G" >> /usr/local/etc/php/php.ini
 # Opcache configuration
 COPY php/ext/opcache.ini /tmp/opcache.ini
+COPY php/ext/opcache-blacklist.txt /usr/local/etc/php/opcache-blacklist.txt
 RUN cat /tmp/opcache.ini >> /usr/local/etc/php/conf.d/docker-php-ext-opcache.ini
 
 # supervisord configuration
