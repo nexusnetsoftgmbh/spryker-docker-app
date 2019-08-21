@@ -3,10 +3,26 @@
 #cp /etc/nginx/nginx.conf /etc/nginx/nginx.conf.bk
 #cp /etc/nginx/nginx_waiting.conf /etc/nginx/nginx.conf
 
-# Update Yves and Zed Nginx configuration files with the correct domain names
-j2 /etc/nginx/conf.d/vhost-yves.conf.j2 > /etc/nginx/conf.d/vhost-yves.conf
-j2 /etc/nginx/conf.d/vhost-zed.conf.j2 > /etc/nginx/conf.d/vhost-zed.conf
-j2 /etc/nginx/conf.d/vhost-glue.conf.j2 > /etc/nginx/conf.d/vhost-glue.conf
+## Multistore
+export IFS=","
+yves_hosts=$YVES_HOST
+for one_yves_host in $yves_hosts; do
+  export ONE_YVES_HOST=$one_yves_host
+  j2 /etc/nginx/conf.d/vhost-yves.conf.j2 > /etc/nginx/conf.d/vhost-yves-$ONE_YVES_HOST.conf
+done
+
+zed_hosts=$ZED_HOST
+for one_zed_host in $zed_hosts; do
+  export ONE_ZED_HOST=$one_zed_host
+  j2 /etc/nginx/conf.d/vhost-zed.conf.j2 > /etc/nginx/conf.d/vhost-zed-$ONE_ZED_HOST.conf
+  echo "127.0.0.1	$ONE_ZED_HOST" >> /etc/hosts
+done
+
+glue_hosts=$GLUE_HOST
+for one_glue_host in $glue_hosts; do
+  export ONE_GLUE_HOST=$one_glue_host
+  j2 /etc/nginx/conf.d/vhost-glue.conf.j2 > /etc/nginx/conf.d/vhost-glue-$ONE_GLUE_HOST.conf
+done
 
 /usr/sbin/nginx -g 'daemon on;' &
 
@@ -39,34 +55,11 @@ echo "RabbitMQ is available now. Good."
 # Become more verbose
 set -xe
 
-# Put env variables to /versions/vars file for using it in Jenkins jobs
-j2 /vars.j2 > /versions/vars
-
-# Install NewRelic php app monitoring
-##echo $NEWRELIC_KEY | sudo newrelic-install install
-
 # Configure PHP
 j2 /usr/local/etc/php/php.ini.j2 > /usr/local/etc/php/php.ini
 
-# Put Zed host IP to /etc/hosts file:
-echo "127.0.0.1	$ZED_HOST" >> /etc/hosts
+chown -R www-data:www-data /data/
 
-#"To build or not to build"
-#if [ -f /versions/latest_successful_build ]; then
-#     source  /versions/vars
-#     APPLICATION_PATH=$(cat /versions/latest_successful_build)
-#     if [ -L /data ]; then
-#       echo "An application link already exist"
-#     else
-#       sudo rm -rf /data
-#       ln -s $APPLICATION_PATH /data
-#     fi
-#     cd /data
-#     cp /dockersuite_restore_state.yml config/install/${APPLICATION_ENV:-staging}.yml
-#     vendor/bin/install -vvv
-#     chown -R www-data:www-data /data/
-#else
-##      /setup_suite.sh
 #      # Disable maintenance mode to validate LetsEncrypt certificates
 #      test -f /maintenance_on.flag && rm /maintenance_on.flag
 #      bash /setup_ssl.sh ${YVES_HOST//www./} $(curl http://checkip.amazonaws.com/ -s) &
