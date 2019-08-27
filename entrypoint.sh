@@ -14,18 +14,18 @@ for one_store_name in $stores; do
   export ONE_STORE=$one_store_name
   for one_yves_host in $yves_hosts; do
     export ONE_YVES_HOST=$one_yves_host
-    j2 /etc/nginx/conf.d/vhost-yves.conf.j2 > /etc/nginx/conf.d/vhost-yves-$ONE_YVES_HOST.conf
+    j2 /etc/nginx/conf.d/vhost-yves.conf.j2 > /etc/nginx/conf.d/vhost-yves-$ONE_STORE.conf
   done
 
   for one_zed_host in $zed_hosts; do
     export ONE_ZED_HOST=$one_zed_host
-    j2 /etc/nginx/conf.d/vhost-zed.conf.j2 > /etc/nginx/conf.d/vhost-zed-$ONE_ZED_HOST.conf
+    j2 /etc/nginx/conf.d/vhost-zed.conf.j2 > /etc/nginx/conf.d/vhost-zed-$ONE_STORE.conf
     echo "127.0.0.1	$ONE_ZED_HOST" >> /etc/hosts
   done
 
   for one_glue_host in $glue_hosts; do
     export ONE_GLUE_HOST=$one_glue_host
-    j2 /etc/nginx/conf.d/vhost-glue.conf.j2 > /etc/nginx/conf.d/vhost-glue-$ONE_GLUE_HOST.conf
+    j2 /etc/nginx/conf.d/vhost-glue.conf.j2 > /etc/nginx/conf.d/vhost-glue-$ONE_STORE.conf
   done
 done
 

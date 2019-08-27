@@ -1,5 +1,5 @@
 upstream backend-glue-{{ONE_STORE}} {
-        server unix:/tmp/.fpm.glue.sock;
+        server unix:/tmp/.fpm.glue.{{ONE_STORE}}.sock;
 }
 
 server {

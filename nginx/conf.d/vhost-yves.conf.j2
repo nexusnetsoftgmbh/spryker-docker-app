@@ -1,5 +1,5 @@
 upstream backend-yves-{{ONE_STORE}} {
-        server unix:/tmp/.fpm.yves.sock;
+        server unix:/tmp/.fpm.yves.{{ONE_STORE}}.sock;
 }
 
 server {

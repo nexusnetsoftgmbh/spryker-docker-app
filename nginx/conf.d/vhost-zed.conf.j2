@@ -1,5 +1,5 @@
 upstream backend-zed-{{ONE_STORE}} {
-        server unix:/tmp/.fpm.zed.sock;
+        server unix:/tmp/.fpm.zed.{{ONE_STORE}}.sock;
 }
 
 server {
