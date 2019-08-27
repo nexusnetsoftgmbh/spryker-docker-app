@@ -63,8 +63,6 @@ set -xe
 # Configure PHP
 j2 /usr/local/etc/php/php.ini.j2 > /usr/local/etc/php/php.ini
 
-chown -R 1000:1000 /data/
-
 #      # Disable maintenance mode to validate LetsEncrypt certificates
 #      test -f /maintenance_on.flag && rm /maintenance_on.flag
 #      bash /setup_ssl.sh ${YVES_HOST//www./} $(curl http://checkip.amazonaws.com/ -s) &
