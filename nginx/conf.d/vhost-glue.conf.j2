@@ -1,4 +1,4 @@
-upstream backend-glue {
+upstream backend-glue-{{ONE_STORE}} {
         server unix:/tmp/.fpm.glue.sock;
 }
 
@@ -45,7 +45,7 @@ server {
     # PHP application gets all other requests
     location / {
         add_header X-Server $hostname;
-        fastcgi_pass backend-glue;
+        fastcgi_pass backend-glue-{{ONE_STORE}};
         fastcgi_index index.php;
         include /etc/nginx/fastcgi_params;
         fastcgi_param SCRIPT_NAME /index.php;

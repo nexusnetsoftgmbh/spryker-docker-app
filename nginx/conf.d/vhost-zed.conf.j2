@@ -1,4 +1,4 @@
-upstream backend-zed {
+upstream backend-zed-{{ONE_STORE}} {
         server unix:/tmp/.fpm.zed.sock;
 }
 
@@ -40,7 +40,7 @@ server {
     # PHP application gets all other requests
     location / {
         add_header X-Server $hostname;
-        fastcgi_pass backend-zed;
+        fastcgi_pass backend-zed-{{ONE_STORE}};
         fastcgi_index index.php;
         include /etc/nginx/fastcgi_params;
         fastcgi_param SCRIPT_NAME /index.php;
