@@ -151,6 +151,8 @@ RUN \
 # Install nvm for nodejs
   && wget -qO- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
 
+RUN echo 'export XDEBUG_CONFIG="profiler_enable=1 remote_port=9009 remote_autostart=1"' > /root/.bashrc
+
 ENV NVM_DIR /root/.nvm
 
 RUN chmod +x $NVM_DIR/nvm.sh \
