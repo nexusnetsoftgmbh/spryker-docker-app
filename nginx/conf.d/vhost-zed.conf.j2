@@ -1,11 +1,7 @@
-upstream backend-zed-{{ONE_STORE}} {
-        server unix:/tmp/.fpm.zed.{{ONE_STORE}}.sock;
-}
-
 server {
     listen 8080;
 ##    server_name ~^zed\\.de\\..+\\.local$;
-    server_name {{ONE_ZED_HOST}};
+    server_name {{ONE_STORE}}.{{ZED_HOST}};
     keepalive_timeout 0;
     access_log /dev/stdout extended;
 
@@ -15,6 +11,7 @@ server {
     include /etc/nginx/conf.d/ssl/letsencrypt.conf;
 
     set $application_store {{ONE_STORE}};
+    set $application_env {{APPLICATION_ENV_NAME}};
 
     # Maintenance mode
     include /etc/nginx/maintenance.conf;
@@ -40,10 +37,12 @@ server {
     # PHP application gets all other requests
     location / {
         add_header X-Server $hostname;
-        fastcgi_pass backend-zed-{{ONE_STORE}};
+        fastcgi_pass backend-zed;
         fastcgi_index index.php;
         include /etc/nginx/fastcgi_params;
         fastcgi_param SCRIPT_NAME /index.php;
         fastcgi_param SCRIPT_FILENAME  $document_root/index.php;
+        fastcgi_param APPLICATION_STORE $application_store;
+        fastcgi_param APPLICATION_ENV $application_env;
     }
 }

@@ -1,16 +1,9 @@
-upstream backend-glue-{{ONE_STORE}} {
-        server unix:/tmp/.fpm.glue.{{ONE_STORE}}.sock;
-}
-
 server {
-    # Listener for production/staging - requires external LoadBalancer directing traffic to this port
-    listen 10001;
-
     # Listener for testing/development - one host only, doesn't require external LoadBalancer
     listen 8080;
 
 ##    server_name ~^glue\\.de\\..+\\.local$;
-    server_name {{ONE_GLUE_HOST}};
+    server_name {{ONE_STORE}}.{{GLUE_HOST}};
     keepalive_timeout 0;
     access_log /dev/stdout extended;
 
@@ -23,6 +16,7 @@ server {
     include /etc/nginx/conf.d/ssl/letsencrypt.conf;
 
     set $application_store {{ONE_STORE}};
+    set $application_env {{APPLICATION_ENV_NAME}};
 
     # Timeout for Api requests - 10 minutes
     # (longer requests should be converted to jobs and executed via jenkins)
@@ -45,13 +39,14 @@ server {
     # PHP application gets all other requests
     location / {
         add_header X-Server $hostname;
-        fastcgi_pass backend-glue-{{ONE_STORE}};
+        fastcgi_pass backend-glue;
         fastcgi_index index.php;
         include /etc/nginx/fastcgi_params;
         fastcgi_param SCRIPT_NAME /index.php;
-        fastcgi_param APPLICATION_ENV $application_env;
         fastcgi_param APPLICATION_STORE $application_store;
         fastcgi_param SCRIPT_FILENAME  $document_root/index.php;
+        fastcgi_param APPLICATION_STORE $application_store;
+        fastcgi_param APPLICATION_ENV $application_env;
         more_clear_headers 'X-Powered-By' 'X-Store' 'X-Locale' 'X-Env' 'Server';
     }
 

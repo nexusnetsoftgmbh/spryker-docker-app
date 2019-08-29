@@ -212,6 +212,8 @@ COPY application/app_files/Cronjobs.patch /etc/spryker/
 #COPY nginx/waiting/nginx_waiting.conf /etc/nginx/nginx_waiting.conf
 #RUN chown -R www-data:www-data /etc/nginx
 
+WORKDIR /data/shop/development/current
+
 # Run app with entrypoints
 ENTRYPOINT ["/tini", "--", "/entrypoint.sh"]
 
