@@ -1,4 +1,4 @@
-FROM php:7.4-fpm
+FROM php:7.2-fpm
 
 # Install tini (init handler)
 ADD https://github.com/krallin/tini/releases/download/v0.9.0/tini /tini
@@ -29,7 +29,7 @@ ENV PHPIZE_DEPS \
   libpng-dev          \
   libpq-dev           \
   libsqlite3-dev      \
-#  libssh2-1-dev       \
+  libssh2-1-dev       \
   libxml2-dev         \
   libxslt1-dev        \
   make                \
@@ -42,7 +42,8 @@ RUN mkdir -p /usr/share/man/man7/ && touch /usr/share/man/man7/ABORT.7.gz.dpkg-t
     mkdir -p /usr/share/man/man1/ && touch /usr/share/man/man1/psql.1.gz
 
 # Set Debian sources
-RUN apt-get update && apt-get install -q -y --no-install-recommends \
+RUN \
+  apt-get update && apt-get install -q -y --no-install-recommends \
   wget                \
   gnupg               \
   apt-transport-https \
@@ -65,11 +66,9 @@ RUN apt-get update && apt-get install -q -y --no-install-recommends \
     graphviz            \
     libedit2            \
 #    libmysqlclient18    \
-    libonig-dev \
     libpq5              \
     libsqlite3-0        \
-    libzip-dev              \
-#    php-ssh2         \
+#    libssh2-php         \
     mc                  \
     netcat              \
     nginx               \
@@ -125,12 +124,8 @@ RUN apt-get update && apt-get install -q -y --no-install-recommends \
 # Install mcrypt
   && pecl install -o -f mcrypt \
 
-# install ssh2
-  && curl -O -J -L https://www.libssh2.org/download/libssh2-1.9.0.tar.gz && tar vxzf libssh2-1.9.0.tar.gz && cd libssh2-1.9.0 && ./configure && make && make install \
-  && curl -O -J -L https://pecl.php.net/get/ssh2 && tar vxzf ssh2-1.2.tgz && cd ssh2-1.2 && phpize && ./configure --with-ssh2 && make && make install \
-
 # Install ssh2
-#  && pecl install -o -f ssh2-1.1.2 \
+  && pecl install -o -f ssh2-1.1.2 \
   && docker-php-ext-enable ssh2 \
 
 # Install xDebug
@@ -155,7 +150,6 @@ RUN apt-get update && apt-get install -q -y --no-install-recommends \
 
 # Install nvm for nodejs
   && wget -qO- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
-
 
 WORKDIR /data/shop/development/current
 
