@@ -1,7 +1,7 @@
 server {
     listen 8080;
 ##    server_name ~^zed\\.de\\..+\\.local$;
-    server_name {{ONE_STORE}}.{{ZED_HOST}};
+    server_name {{LOWER_ONE_STORE}}.{{ZED_HOST}};
     keepalive_timeout 0;
     access_log /dev/stdout extended;
 
