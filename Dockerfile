@@ -1,4 +1,4 @@
-FROM php:7.4.1-fpm
+FROM php:7.4-fpm
 
 # Install tini (init handler)
 ADD https://github.com/krallin/tini/releases/download/v0.9.0/tini /tini
@@ -99,7 +99,7 @@ RUN apt-get update && apt-get install -q -y --no-install-recommends \
   && echo 'nexus ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers  \
 
 # Install PHP extensions
-  && docker-php-ext-configure gd --with-freetype --with-jpeg \
+  && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
   && docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
   && docker-php-ext-install -j$(nproc) \
         bcmath      \
