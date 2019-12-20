@@ -1,4 +1,4 @@
-FROM php:7.4-fpm
+FROM php:7.4.1-fpm
 
 # Install tini (init handler)
 ADD https://github.com/krallin/tini/releases/download/v0.9.0/tini /tini
