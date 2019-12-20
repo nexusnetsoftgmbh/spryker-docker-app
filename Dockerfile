@@ -126,10 +126,10 @@ RUN apt-get update && apt-get install -q -y --no-install-recommends \
   && pecl install -o -f mcrypt \
 
 # install ssh2 not working in 7.4.1 atm
-  && curl -O -J -L https://www.libssh2.org/download/libssh2-1.9.0.tar.gz && tar vxzf libssh2-1.9.0.tar.gz && cd libssh2-1.9.0 && ./configure && make && make install \
-  && curl -O -J -L https://pecl.php.net/get/ssh2 && tar vxzf ssh2-1.2.tgz && cd ssh2-1.2 && phpize && ./configure --with-ssh2 && make && make install \
-  && pecl install -o -f ssh2-1.1.2 \
-  && docker-php-ext-enable ssh2 \
+#  && curl -O -J -L https://www.libssh2.org/download/libssh2-1.9.0.tar.gz && tar vxzf libssh2-1.9.0.tar.gz && cd libssh2-1.9.0 && ./configure && make && make install \
+#  && curl -O -J -L https://pecl.php.net/get/ssh2 && tar vxzf ssh2-1.2.tgz && cd ssh2-1.2 && phpize && ./configure --with-ssh2 && make && make install \
+#  && pecl install -o -f ssh2-1.1.2 \
+#  && docker-php-ext-enable ssh2 \
 
 # Install xDebug
   && pecl install -o -f xdebug \
