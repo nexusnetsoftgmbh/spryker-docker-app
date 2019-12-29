@@ -11,7 +11,9 @@ for one_store_name in $stores; do
   export LOWER_ONE_STORE="${one_store_name,,}"
   export ONE_STORE=$one_store_name
   j2 /etc/nginx/conf.d/vhost-yves.conf.j2 > /etc/nginx/conf.d/vhost-yves-$LOWER_ONE_STORE.conf
+  j2 /etc/nginx/conf.d/vhost-yves-test.conf.j2 > /etc/nginx/conf.d/vhost-yves-test-$LOWER_ONE_STORE.conf
   j2 /etc/nginx/conf.d/vhost-zed.conf.j2 > /etc/nginx/conf.d/vhost-zed-$LOWER_ONE_STORE.conf
+  j2 /etc/nginx/conf.d/vhost-zed-test.conf.j2 > /etc/nginx/conf.d/vhost-zed-test-$LOWER_ONE_STORE.conf
   j2 /etc/nginx/conf.d/vhost-glue.conf.j2 > /etc/nginx/conf.d/vhost-glue-$LOWER_ONE_STORE.conf
   echo "127.0.0.1	$LOWER_ONE_STORE.$ZED_HOST" >> /etc/hosts
   echo "127.0.0.1	$LOWER_ONE_STORE.$GLUE_HOST" >> /etc/hosts
