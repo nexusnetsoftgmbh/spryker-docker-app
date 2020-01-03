@@ -1,1 +1,1 @@
-# Repo for local development
+# Base image prepared for spryker and local development
