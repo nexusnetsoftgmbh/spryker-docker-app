@@ -1,1 +1,2 @@
 /data/shop/development/current/src/*
+/data/shop/development/current/src/config/*
