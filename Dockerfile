@@ -223,7 +223,7 @@ WORKDIR /data/shop/development/current
 # Run app with entrypoints
 ENTRYPOINT ["/tini", "--", "/entrypoint.sh"]
 
-EXPOSE 8080 8081 222
+EXPOSE 80 8081 222
 
 #STOPSIGNAL SIGQUIT
 CMD ["supervisord", "-c", "/etc/supervisor/supervisord.conf", "--nodaemon"]
