@@ -16,6 +16,12 @@ for one_store_name in $stores; do
   j2 /etc/nginx/conf.d/vhost-zed-test.conf.j2 > /etc/nginx/conf.d/vhost-zed-test-$LOWER_ONE_STORE.conf
   j2 /etc/nginx/conf.d/vhost-glue.conf.j2 > /etc/nginx/conf.d/vhost-glue-$LOWER_ONE_STORE.conf
   j2 /etc/nginx/conf.d/vhost-glue-test.conf.j2 > /etc/nginx/conf.d/vhost-glue-test-$LOWER_ONE_STORE.conf
+  echo "127.0.0.1	$LOWER_ONE_STORE.$YVES_HOST" >> /etc/hosts
+  echo "127.0.0.1	$LOWER_ONE_STORE.test-$YVES_HOST" >> /etc/hosts
+  echo "127.0.0.1	$LOWER_ONE_STORE.$ZED_HOST" >> /etc/hosts
+  echo "127.0.0.1	$LOWER_ONE_STORE.test-$ZED_HOST" >> /etc/hosts
+  echo "127.0.0.1	$LOWER_ONE_STORE.$GLUE_HOST" >> /etc/hosts
+  echo "127.0.0.1	$LOWER_ONE_STORE.test-$GLUE_HOST" >> /etc/hosts
 done
 
 /usr/sbin/nginx -g 'daemon on;' &
