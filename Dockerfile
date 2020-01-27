@@ -152,16 +152,17 @@ RUN apt-get update && apt-get install -q -y --no-install-recommends \
   && rm -rf /var/lib/apt/lists/* \
 
 # Install nvm for nodejs
-  && wget -qO- https://raw.githubusercontent.com/creationix/nvm/v0.35.2/install.sh | bash
+  && curl -sL https://deb.nodesource.com/setup_$NODE_VERSION.x | sudo -E bash -
+  && apt-get install -y nodejs npm
 
 
 WORKDIR /data/shop/development/current
 
-ENV NVM_DIR /root/.nvm
+#ENV NVM_DIR /root/.nvm
 
-RUN chmod +x $NVM_DIR/nvm.sh \
-  && . $NVM_DIR/nvm.sh \
-  && nvm install $NODE_VERSION
+#RUN chmod +x $NVM_DIR/nvm.sh \
+#  && . $NVM_DIR/nvm.sh \
+#  && nvm install $NODE_VERSION
 
 # Nginx configuration
 COPY nginx/nginx.conf /etc/nginx/nginx.conf
