@@ -152,7 +152,7 @@ RUN apt-get update && apt-get install -q -y --no-install-recommends \
   && rm -rf /var/lib/apt/lists/* \
 
 # Install nvm for nodejs
-  && curl -sL https://deb.nodesource.com/setup_$NODE_VERSION.x | sudo -E bash -
+  && curl -sL https://deb.nodesource.com/setup_$NODE_VERSION.x | sudo -E bash - \
   && apt-get install -y nodejs npm
 
 
