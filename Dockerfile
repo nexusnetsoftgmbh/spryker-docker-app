@@ -152,8 +152,9 @@ RUN apt-get update && apt-get install -q -y --no-install-recommends \
   && rm -rf /var/lib/apt/lists/* \
 
 # Install nvm for nodejs
-  && curl -sL https://deb.nodesource.com/setup_$NODE_VERSION.x | sudo -E bash - \
-  && apt-get install -y nodejs npm
+   && wget http://nodejs.org/dist/latest-v8.x/node-v8.17.0-linux-x64.tar.gz && tar vxzf node-v8.17.0-linux-x64.tar.gz && chmod +x node-v8.17.0-linux-x64/bin/* && cp node-v8.17.0-linux-x64/bin/* /usr/bin
+#  && curl -sL https://deb.nodesource.com/setup_$NODE_VERSION.x | sudo -E bash - \
+#  && apt-get install -y nodejs npm
 
 
 WORKDIR /data/shop/development/current
