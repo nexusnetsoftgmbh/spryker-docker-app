@@ -152,8 +152,17 @@ RUN apt-get update && apt-get install -q -y --no-install-recommends \
   && rm -rf /var/lib/apt/lists/*
 
 # Install nvm for nodejs
-RUN cd / && wget http://nodejs.org/dist/latest-v8.x/node-v8.17.0-linux-x64.tar.gz && tar vxzf node-v8.17.0-linux-x64.tar.gz
-ENV PATH=/node-v8.17.0-linux-x64/bin:$PATH
+#    &&
+#   && wget http://nodejs.org/dist/latest-v8.x/node-v8.17.0-linux-x64.tar.gz && tar vxzf node-v8.17.0-linux-x64.tar.gz && chmod +x node-v8.17.0-linux-x64/bin/* && cp node-v8.17.0-linux-x64/bin/* /usr/bin
+#  && curl -sL https://deb.nodesource.com/setup_$NODE_VERSION.x | sudo -E bash - \
+#  && apt-get install -y nodejs npm
+
+RUN curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.34.0/install.sh | bash && chmod +x /root/.nvm/nvm.sh && /root/.nvm/nvm.sh use 8
+
+#RUN cd / && wget https://nodejs.org/download/release/v8.9.4/node-v8.9.4-linux-x64.tar.gz && tar vxzf node-v8.9.4-linux-x64.tar.gz
+#RUN cd / && wget http://nodejs.org/dist/latest-v8.x/node-v8.17.0-linux-x64.tar.gz && tar vxzf node-v8.17.0-linux-x64.tar.gz
+ENV PATH=/root/.nvm:$PATH
+ENV PATH=/root/.nvm/versions/node/v8.17.0/bin:$PATH
 
 WORKDIR /data/shop/development/current
 
