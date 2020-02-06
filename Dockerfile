@@ -149,13 +149,11 @@ RUN apt-get update && apt-get install -q -y --no-install-recommends \
 # Remove build requirements for php modules
   && apt-get -qy autoremove \
   && apt-get -qy purge $PHPIZE_DEPS \
-  && rm -rf /var/lib/apt/lists/* \
+  && rm -rf /var/lib/apt/lists/*
 
 # Install nvm for nodejs
-   && wget http://nodejs.org/dist/latest-v8.x/node-v8.17.0-linux-x64.tar.gz && tar vxzf node-v8.17.0-linux-x64.tar.gz && chmod +x node-v8.17.0-linux-x64/bin/* && cp node-v8.17.0-linux-x64/bin/* /usr/bin
-#  && curl -sL https://deb.nodesource.com/setup_$NODE_VERSION.x | sudo -E bash - \
-#  && apt-get install -y nodejs npm
-
+RUN cd / && wget http://nodejs.org/dist/latest-v8.x/node-v8.17.0-linux-x64.tar.gz && tar vxzf node-v8.17.0-linux-x64.tar.gz
+ENV PATH=/node-v8.17.0-linux-x64/bin:$PATH
 
 WORKDIR /data/shop/development/current
 
