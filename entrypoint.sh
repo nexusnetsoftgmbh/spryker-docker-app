@@ -27,30 +27,30 @@ done
 /usr/sbin/nginx -g 'daemon on;' &
 
 # Enable maintenance mode
-touch /maintenance_on.flag
+#touch /maintenance_on.flag
 
 # Enable PGPASSWORD for non-interactive working with PostgreSQL if PGPASSWORD is not set
 export PGPASSWORD=$POSTGRES_PASSWORD
 # Waiting for PostgreSQL database starting
-until psql -h $POSTGRES_HOST -p "$POSTGRES_PORT" -U "$POSTGRES_USER" $POSTGRES_DATABASE -c '\l'; do
-  echo "Waiting for PostgreSQL..."
-  sleep 3
-done
-echo "PostgreSQL is available now. Good."
+#until psql -h $POSTGRES_HOST -p "$POSTGRES_PORT" -U "$POSTGRES_USER" $POSTGRES_DATABASE -c '\l'; do
+#  echo "Waiting for PostgreSQL..."
+#  sleep 3
+#done
+#echo "PostgreSQL is available now. Good."
 
 # Waiting for the Elasticsearch starting
-until curl -s "$ELASTICSEARCH_HOST:$ELASTICSEARCH_PORT" > /dev/null; do
-  echo "Waiting for Elasticsearch..."
-  sleep 3
-done
-echo "Elasticsearch is available now. Good."
+#until curl -s "$ELASTICSEARCH_HOST:$ELASTICSEARCH_PORT" > /dev/null; do
+#  echo "Waiting for Elasticsearch..."
+#  sleep 3
+#done
+#echo "Elasticsearch is available now. Good."
 
 # Waiting for the RabbitMQ starting
-until curl -s "$RABBITMQ_HOST:$RABBITMQ_API_PORT" > /dev/null; do
-  echo "Waiting for RabbitMQ..."
-  sleep 3
-done
-echo "RabbitMQ is available now. Good."
+#until curl -s "$RABBITMQ_HOST:$RABBITMQ_API_PORT" > /dev/null; do
+#  echo "Waiting for RabbitMQ..."
+#  sleep 3
+#done
+#echo "RabbitMQ is available now. Good."
 
 # Become more verbose
 set -xe
@@ -71,7 +71,7 @@ supervisorctl restart php-fpm
 supervisorctl restart nginx
 
 # Unset maintenance flag
-test -f /maintenance_on.flag && rm /maintenance_on.flag
+#test -f /maintenance_on.flag && rm /maintenance_on.flag
 
 # Call command...
 exec $*
