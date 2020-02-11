@@ -65,7 +65,7 @@ j2 /usr/local/etc/php/php.ini.j2 > /usr/local/etc/php/php.ini
 #cp /etc/nginx/nginx.conf.bk /etc/nginx/nginx.conf
 killall -9 nginx
 
-chmod 777 -fR /data/shop/development/current/data
+#chmod 777 -fR /data/shop/development/current/data
 
 supervisorctl restart php-fpm
 supervisorctl restart nginx
