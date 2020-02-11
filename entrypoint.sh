@@ -63,15 +63,15 @@ j2 /usr/local/etc/php/php.ini.j2 > /usr/local/etc/php/php.ini
 #      bash /setup_ssl.sh ${YVES_HOST//www./} $(curl http://checkip.amazonaws.com/ -s) &
 #fi
 #cp /etc/nginx/nginx.conf.bk /etc/nginx/nginx.conf
-killall -9 nginx
+#killall -9 nginx
 
 #chmod 777 -fR /data/shop/development/current/data
 
-supervisorctl restart php-fpm
-supervisorctl restart nginx
+#supervisorctl restart php-fpm
+#supervisorctl restart nginx
 
 # Unset maintenance flag
 #test -f /maintenance_on.flag && rm /maintenance_on.flag
 
 # Call command...
-exec $*
+#exec $*
