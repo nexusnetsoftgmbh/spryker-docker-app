@@ -205,7 +205,8 @@ COPY vars.j2 /vars.j2
 
 
 # install zsh, oh-my-zsh and set it as the default shell
-RUN wget https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | zsh || true
+RUN wget https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | zsh || true \
+	&& chsh -s $(which zsh)
 COPY ./php/zsh/.zshrc /root/.zshrc
 
 # Add jenkins authorized_keys
