@@ -90,6 +90,8 @@ RUN apt-get update && apt-get install -q -y --no-install-recommends \
     zip                 \
     openssh-server      \
     newrelic-php5       \
+    zsh                 \
+    tmux                \
 
   && mkdir /var/run/sshd  \
   && useradd -m -s /bin/bash -d /data nexus               \
@@ -200,6 +202,12 @@ COPY entrypoint.sh /entrypoint.sh
 COPY setup_ssl.sh /setup_ssl.sh
 COPY vars.j2 /vars.j2
 #RUN chmod +x /setup_suite.sh
+
+
+# install zsh, oh-my-zsh and set it as the default shell
+RUN wget https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | zsh || true \
+	&& chsh -s $(which zsh)
+COPY ./php/zsh/.zshrc /root/.zshrc
 
 # Add jenkins authorized_keys
 #RUN mkdir -p /etc/spryker/jenkins/.ssh
