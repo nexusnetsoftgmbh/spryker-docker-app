@@ -19,16 +19,16 @@ plugins=(
 
 source $ZSH/oh-my-zsh.sh
 
+# custom exports
 export PHP_IDE_CONFIG="serverName=zed"
 export XDEBUG_CONFIG="profiler_enable=1"
 
-# Set personal aliases, overriding those provided by oh-my-zsh libs,
-# plugins, and themes. Aliases can be placed here, though oh-my-zsh
-# users are encouraged to define aliases within the ZSH_CUSTOM folder.
-# For a full list of active aliases, run `alias`.
-#
-# aliases
-alias console="php /data/shop/development/current/vendor/bin/console "
-alias codecept="php /data/shop/development/current/vendor/bin/codecept "
+# custom aliases
+alias console="php /data/shop/development/current/vendor/bin/console"
+alias codecept="php /data/shop/development/current/vendor/bin/codecept"
+alias phpunit="php /data/shop/development/current/vendor/bin/phpunit"
+alias psalm="php /data/shop/development/current/vendor/bin/psalm"
+alias psalter="php /data/shop/development/current/vendor/bin/psalter"
+
 alias ll="ls -gFlash"
 
