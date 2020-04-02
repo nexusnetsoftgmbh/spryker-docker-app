@@ -153,11 +153,19 @@ RUN apt-get update && apt-get install -q -y --no-install-recommends \
   && apt-get -qy purge $PHPIZE_DEPS \
   && rm -rf /var/lib/apt/lists/*
 
-# Install nvm for nodejs
-RUN curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.34.0/install.sh | bash && chmod +x /root/.nvm/nvm.sh && /root/.nvm/nvm.sh use 8
+## Install nvm for nodejs
+#RUN curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.34.0/install.sh | bash && chmod +x /root/.nvm/nvm.sh && /root/.nvm/nvm.sh use 8
+#
+#ENV PATH=/root/.nvm:$PATH
+#ENV PATH=/root/.nvm/versions/node/v8.17.0/bin:$PATH
 
-ENV PATH=/root/.nvm:$PATH
-ENV PATH=/root/.nvm/versions/node/v8.17.0/bin:$PATH
+USER nexus
+# Install nvm for nexus
+RUN curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.34.0/install.sh | bash && chmod +x /data/.nvm/nvm.sh && /data/.nvm/nvm.sh use 8
+ENV PATH=/data/.nvm:$PATH
+ENV PATH=/data/.nvm/versions/node/v8.17.0/bin:$PATH
+
+USER root
 
 WORKDIR /data/shop/development/current
 
@@ -188,13 +196,27 @@ RUN cat /tmp/opcache.ini >> /usr/local/etc/php/conf.d/docker-php-ext-opcache.ini
 # supervisord configuration
 COPY supervisord.conf /etc/supervisor/supervisord.conf
 
+# install zsh, oh-my-zsh and set it as the default shell
+RUN wget https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | zsh || true
+COPY ./php/zsh/.zshrc /root/.zshrc
+
+# install zsh, oh-my-zsh for nexus
+COPY ./php/zsh/.zshrc /data/.zshrc
+RUN mkdir /data/.oh-my-zsh
+RUN touch /data/.zsh_history
+RUN chown -R nexus:nexus /data/.oh-my-zsh
+USER nexus
+RUN git clone https://github.com/ohmyzsh/ohmyzsh.git ~/.oh-my-zsh
+USER root
 # Prepare application
 ARG GITHUB_TOKEN
 
+RUN chown -R nexus:nexus /data/
 RUN install -d -o www-data -g www-data -m 0755 /data /var/www
 RUN mkdir -p /data/shop/development/current
 RUN mkdir -p /versions
-RUN chown -R www-data:www-data /data
+RUN chown -R www-data:www-data /data/shop/
+RUN chown nexus /data
 
 WORKDIR /data
 COPY entrypoint.sh /entrypoint.sh
@@ -203,19 +225,6 @@ COPY setup_ssl.sh /setup_ssl.sh
 COPY vars.j2 /vars.j2
 #RUN chmod +x /setup_suite.sh
 
-
-# install zsh, oh-my-zsh and set it as the default shell
-RUN wget https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | zsh || true
-COPY ./php/zsh/.zshrc /root/.zshrc
-
-# install zsh, oh-my-zsh for nexus
-RUN mkdir /data/.oh-my-zsh
-RUN chown -R nexus:nexus /data/.oh-my-zsh
-USER nexus
-COPY ./php/zsh/.zshrc /data/.zshrc
-RUN git clone https://github.com/ohmyzsh/ohmyzsh.git ~/.oh-my-zsh
-
-USER root
 # Add jenkins authorized_keys
 #RUN mkdir -p /etc/spryker/jenkins/.ssh
 #COPY jenkins/id_rsa.pub /etc/spryker/jenkins/.ssh/authorized_keys
