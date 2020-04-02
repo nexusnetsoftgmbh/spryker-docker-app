@@ -208,6 +208,14 @@ COPY vars.j2 /vars.j2
 RUN wget https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | zsh || true
 COPY ./php/zsh/.zshrc /root/.zshrc
 
+# install zsh, oh-my-zsh for nexus
+RUN mkdir /data/.oh-my-zsh
+RUN chown -R nexus:nexus /data/.oh-my-zsh
+USER nexus
+COPY ./php/zsh/.zshrc /data/.zshrc
+RUN git clone https://github.com/ohmyzsh/ohmyzsh.git ~/.oh-my-zsh
+
+USER root
 # Add jenkins authorized_keys
 #RUN mkdir -p /etc/spryker/jenkins/.ssh
 #COPY jenkins/id_rsa.pub /etc/spryker/jenkins/.ssh/authorized_keys
